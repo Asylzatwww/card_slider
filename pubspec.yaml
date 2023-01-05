@@ -1,7 +1,7 @@
 name: card_slider
 description: A new Flutter package project.
 version: 1.0.0+1
-homepage:
+homepage: https://github.com/Asylzatwww/card_slider
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
