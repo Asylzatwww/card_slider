@@ -1,5 +1,5 @@
 name: card_slider
-description: A new Flutter package project.
+description: A draggable Flutter widget that makes implementing a CardSlider much easier!
 version: 1.0.0+1
 homepage: https://github.com/Asylzatwww/card_slider
 
