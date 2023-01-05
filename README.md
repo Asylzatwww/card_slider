@@ -150,7 +150,7 @@ Widget build(BuildContext context) {
 <br>
 
 #### Screenshots
-Both methods produce the same result:
+On the image below is shown how to use parameters `cardWidthOffset`, `cardHeightOffset`, `bottomOffset` :
 
 <p float="left">
   <img alt="Panel Closed" width="217px" src="https://raw.githubusercontent.com/asylzatwww/card_slider/master/screenshots/slide_widget_example.png">
