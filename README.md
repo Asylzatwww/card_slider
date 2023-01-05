@@ -1,8 +1,5 @@
 
 # card_slider
-[![pub package](https://img.shields.io/pub/v/sliding_up_panel.svg)](https://pub.dartlang.org/packages/sliding_up_panel)
-[![GitHub Stars](https://img.shields.io/github/stars/akshathjain/sliding_up_panel.svg?logo=github)](https://github.com/akshathjain/sliding_up_panel)
-[![Platform](https://img.shields.io/badge/platform-android%20|%20ios-green.svg)](https://img.shields.io/badge/platform-Android%20%7C%20iOS-green.svg)
 
 A draggable Flutter widget that makes implementing a CardSlider much easier! Card slider for carousel images and widgets. This widget works on both Android & iOS.
 
@@ -156,7 +153,7 @@ Widget build(BuildContext context) {
 Both methods produce the same result:
 
 <p float="left">
-  <img alt="Panel Closed" width="217px" src="https://raw.githubusercontent.com/asylzatwww/card_slider/master/screenshots/slide_widget_example.PNG">
+  <img alt="Panel Closed" width="217px" src="https://raw.githubusercontent.com/asylzatwww/card_slider/master/screenshots/slide_widget_example.png">
 </p>
 
 <br>
