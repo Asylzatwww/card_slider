@@ -1,7 +1,21 @@
+import 'dart:io';
+
+import 'package:example/slides/slide_images.dart';
+import 'package:example/slides/slide_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:card_slider/card_slider.dart';
 
 void main() {
-  runApp(const MyApp());
+  HttpOverrides.global = MyHttpOverrides();
+  runApp(const MaterialApp(home: MainPage(title: "Card Slider",)));
+}
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -10,105 +24,143 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    List<Color> valuesDataColors = [
+    Colors.purple,
+    Colors.yellow,
+    Colors.green,
+    Colors.red,
+    Colors.grey,
+    Colors.blue,
+  ];
+
+    List<Widget> valuesWidget = [];
+    if (1 == 2)
+    for (int i = 0; i < valuesDataColors.length; i++)
+      valuesWidget.add(
+          Container(
+          color: valuesDataColors[i],
+          child: Text( i.toString() ),
+          )
+      );
+
+    List<String> valuesUrl = [
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg',
+      'https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg',
+      'https://www.eea.europa.eu/themes/biodiversity/state-of-nature-in-the-eu/state-of-nature-2020-subtopic/image_print'
+    ];
+
+    for (int i = 0; i < valuesUrl.length; i++)
+      valuesWidget.add(
+        Image.network( valuesUrl[i] ),
+      );
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:
+
+      Scaffold(
+        backgroundColor:
+        Colors.white,
+        //Color(0xFF1560BD),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          //backgroundColor: Color(0x44000000),
+          elevation: 0,
+          title: Text("Gallery",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF33a000)),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Color(0xFF33a000),),
+            tooltip: 'Back',
+            onPressed: () {
+              // handle the press
+            },
+          ),
+        ),
+        body:
+
+        CardSlider(
+          cards: valuesWidget,
+          bottomOffset: .0006,
+          itemDotWidth: 14,
+
+          itemDot:
+
+              (itemDotWidth){
+            return Container(
+                margin: EdgeInsets.all(5),
+                width: 8 + itemDotWidth,
+                height: 8,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xFF33a000),
+                )
+            );
+          }
+
+          ,
+
+        )
+        //const MyHomePage(title: 'Flutter Demo Home Page')
+        ,
+      )
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class MainPage extends StatefulWidget {
+  const MainPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+
+            TextButton(
+              onPressed: () {
+
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                        SlideImages()
+                ));
+
+              },
+              child: Text("Slide images"),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+
+            SizedBox(height: 20,),
+
+            TextButton(
+              onPressed: () {
+
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                    SlideWidget()
+                ));
+
+              },
+              child: Text("Slide widget"),
             ),
+
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
