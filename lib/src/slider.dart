@@ -1,6 +1,4 @@
-
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 
@@ -8,10 +6,12 @@ typedef WidgetFunction<T> = Widget Function(T value);
 
 class CardSlider extends StatefulWidget {
 
-  List<Widget> cards = [];
-  double? blurValue;
+  // The List of Widgets for slider
+  final List<Widget> cards;
+  // Optional `blurValue` used for blurring the slider
+  final double? blurValue;
 
-  CardSlider(
+  const CardSlider(
       {Key? key,
         required this.cards,
         this.slideChanged,
@@ -25,33 +25,38 @@ class CardSlider extends StatefulWidget {
         this.cardWidthOffset = .1,
         this.cardHeightOffset = .01,
         this.itemDot
-
       })
       : super(key: key);
 
   @override
   State<CardSlider> createState() => _CardSliderState();
 
+  // Optional Event fired when ever slide is changed, `(sliderIndex){  }` sliderIndex has a value of a current slide.
   final ValueChanged<void>? slideChanged;
+  // Optional `blurOnClick` is method which listens if users clicks over blurred slider to be able to remove blurry
   final ValueChanged<void>? blurOnClick;
+  // Optional widget which placed on the background of slider, can be placed logo or any other image or widget .
   final Widget? sliderBackGroundWidget;
-  double? itemDotWidth;
-  double? bottomOffset;
-  double? cardWidth;
-  double? cardHeight;
-  double? cardWidthOffset;
-  double? cardHeightOffset;
-
+  // Optional is a width of dots under slider showing current location.
+  final double? itemDotWidth;
+  // Optional is a double value, the height of a bottom of previous slide
+  final double? bottomOffset;
+  // Optional is a width of a slides
+  final double? cardWidth;
+  // Optional is a height of a slides
+  final double? cardHeight;
+  // Optional is a width which is used for how far slide must go on in horizontal distance when swiping or dragging
+  final double? cardWidthOffset;
+  // Optional is a height which is used for how far slide must go on in vertical distance when swiping or dragging
+  final double? cardHeightOffset;
+  // Optional is a widget by which can be changed the dots of th slider position
   final WidgetFunction<double>? itemDot;
-
 }
 
 class _CardSliderState extends State<CardSlider>
 with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-
   double alignmentCenterY = Alignment.center.y;
-
 
   late Alignment _dragAlignment;
   late Alignment _dragAlignmentBack;
@@ -121,8 +126,7 @@ with SingleTickerProviderStateMixin {
 
     Alignment dragAlignmentSelect = directionNegative ? _dragAlignmentBack : _dragAlignment;
 
-    return
-    Alignment( Alignment.center.x +
+    return Alignment( Alignment.center.x +
         (directionX || withOutDirection ? (
             dragAlignmentSelect.x == 0 || dragAlignmentSelect.x.abs() < 0.1 ? 0 :
             (dragAlignmentSelect.x > 0 ? _slideLeftOffset : _slideRightOffset)
@@ -172,8 +176,9 @@ with SingleTickerProviderStateMixin {
     directionY = false;
     directionX = false;
 
-    if (widget.slideChanged != null)
-      widget.slideChanged!( valuesDataIndex.length == 0 ? 1 : valuesDataIndex[0] );
+    if (widget.slideChanged != null) {
+      widget.slideChanged!( valuesDataIndex.isEmpty ? 1 : valuesDataIndex[0] );
+    }
   }
 
   void _cardToFinishAnimation(Offset pixelsPerSecond, Size size) {
@@ -208,7 +213,7 @@ with SingleTickerProviderStateMixin {
     _itemDotWidthAnim = _controller.drive(
         Tween<double>(
             begin: 0,
-            end: widget.itemDotWidth
+            end: _itemDotWidth
         )
     );
 
@@ -229,9 +234,7 @@ with SingleTickerProviderStateMixin {
     _dragAlignmentAnim =
         _controller.drive(
           AlignmentTween(
-              begin:
-              getTheAlignment(!directionNegative, true)
-              ,
+              begin: getTheAlignment(!directionNegative, true),
               end:
               directionNegative ?
               Alignment( Alignment.center.x, alignmentCenterY )
@@ -270,8 +273,9 @@ with SingleTickerProviderStateMixin {
     _dragAlignment = Alignment(Alignment.center.x, alignmentCenterY);
     _dragAlignmentBack = Alignment(Alignment.center.x, alignmentCenterY);
 
-    for (int i = 0; i < widget.cards.length; i++)
+    for (int i = 0; i < widget.cards.length; i++) {
       valuesDataIndex.add(i);
+    }
 
     _controller = AnimationController(vsync: this);
 
@@ -289,11 +293,10 @@ with SingleTickerProviderStateMixin {
           _dragAlignmentCenter = _dragAlignmentCenterAnim.value;
           _containerSizeWidth = _containerSizeWidthAnim.value;
           _containerSizeHeight = _containerSizeHeightAnim.value;
-          widget.itemDotWidth = _itemDotWidthAnim.value;
+          _itemDotWidth = _itemDotWidthAnim.value;
         }
       });
     });
-
   }
 
   @override
@@ -302,54 +305,42 @@ with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  late var size;
+  late var _size;
 
   bool runOnlyOnce = false;
 
   @override
   Widget build(BuildContext context) {
-
     if (!runOnlyOnce){
-      size = MediaQuery.of(context).size;
-
-      _cardWidth = size.width * widget.cardWidth;
-      _cardHeight = size.width * widget.cardHeight;
-      _cardWidthOffset = size.width * widget.cardWidthOffset;
-      _cardHeightOffset = size.width * widget.cardHeightOffset;
-      _bottomOffset = size.width * widget.bottomOffset;
-
+      _size = MediaQuery.of(context).size;
+      _itemDotWidth = widget.itemDotWidth ?? 10;
+      _cardWidth = _size.width * widget.cardWidth;
+      _cardHeight = _size.width * widget.cardHeight;
+      _cardWidthOffset = _size.width * widget.cardWidthOffset;
+      _cardHeightOffset = _size.width * widget.cardHeightOffset;
+      _bottomOffset = _size.width * widget.bottomOffset;
       _dragAlignmentBack = Alignment( Alignment.center.x, alignmentCenterY + getAlignment( valuesDataIndex.length - 1 ) );
       runOnlyOnce = true;
     }
 
-    return
-       Stack(
+    return Stack(
           children:
           _sliderBody(),
-        )
-    ;
+        );
   }
 
   List<Widget> _sliderBody(){
-
-    return
-      [
-
+    return [
         if (widget.sliderBackGroundWidget != null)
           widget.sliderBackGroundWidget!,
-
         animatedBackCards(),
-
         GestureDetector(
             onPanDown: (details) {
-
               if ( _animationPhase == 0 ) _controller.stop();
             },
             onPanUpdate: (details) {
-
               if (_animationPhase == 0 && widget.blurValue == 0
               ) {
-
                 if (!directionX && !directionY) {
                   if (details.delta.dx != 0.0 && details.delta.dy != 0.0) {
                     if (((details.delta.dx).abs() -
@@ -367,29 +358,25 @@ with SingleTickerProviderStateMixin {
                     }
                   }
                 }
-
                 if (directionX || directionY) {
                   setState(() {
-                    if (directionNegative)
+                    if (directionNegative) {
                       _dragAlignmentBack += Alignment(
-                        directionX ? details.delta.dx / (size.width / 2) : 0,
-                        directionY ? details.delta.dy / (size.height / 2) : 0,
+                        directionX ? details.delta.dx / (_size.width / 2) : 0,
+                        directionY ? details.delta.dy / (_size.height / 2) : 0,
                       );
-                    else
-
+                    } else {
                       _dragAlignment += Alignment(
-                        directionX ? details.delta.dx / (size.width / 2) : 0,
-                        directionY ? details.delta.dy / (size.height / 2) : 0,
+                        directionX ? details.delta.dx / (_size.width / 2) : 0,
+                        directionY ? details.delta.dy / (_size.height / 2) : 0,
                       );
+                    }
                   });
                 }
               }
-
             },
             onPanEnd: (details) {
-
               if (_animationPhase == 0 && widget.blurValue == 0){
-
                 if (
                 directionY ?
                 (directionNegative ?
@@ -400,39 +387,36 @@ with SingleTickerProviderStateMixin {
                     directionX ? (directionNegative ? _dragAlignmentBack.x.abs() > 0.2 : _dragAlignment.x.abs() > 0.2 )
                     : false
                 ){
-
                   _animationPhase = 1;
-                  _cardToStartAnimation(details.velocity.pixelsPerSecond, size);
-
-                } else _cardToBackAnimation(details.velocity.pixelsPerSecond, size);
-
+                  _cardToStartAnimation(details.velocity.pixelsPerSecond, _size);
+                } else {
+                  _cardToBackAnimation(details.velocity.pixelsPerSecond, _size);
+                }
               }
-              else if (widget.blurValue != 0 && widget.blurOnClick != null )
-                widget.blurOnClick!(valuesDataIndex.length == 0 ? 1 : valuesDataIndex[0]);
-
+              else if (widget.blurValue != 0 && widget.blurOnClick != null ) {
+                widget.blurOnClick!(valuesDataIndex.isEmpty ? 1 : valuesDataIndex[0]);
+              }
             },
             child:
-
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: widget.blurValue!, sigmaY: widget.blurValue!),
               child: Container(
-                width: size.width,
-                height: size.height,
-                color: Color(0x0000ff77),
+                width: _size.width,
+                height: _size.height,
+                color: const Color(0x0000ff77),
               ),
             ),
-
         ),
-
-      ]
-      ;
+      ];
   }
 
   double getAlignment(int i){
     double bottomOffset = 0;
-
-    if (i > 1) bottomOffset += _bottomOffset * 2;
-    else if (i > 0) bottomOffset += _bottomOffset;
+    if (i > 1) {
+      bottomOffset += _bottomOffset * 2;
+    } else if (i > 0) {
+      bottomOffset += _bottomOffset;
+    }
 
     return bottomOffset;
   }
@@ -440,8 +424,11 @@ with SingleTickerProviderStateMixin {
   double getWidth(int i){
     double width = _cardWidth;
 
-    if (i > 1) width -= _cardWidthOffset * 2;
-    else if (i > 0) width -= _cardWidthOffset;
+    if (i > 1) {
+      width -= _cardWidthOffset * 2;
+    } else if (i > 0) {
+      width -= _cardWidthOffset;
+    }
 
     return width;
   }
@@ -449,17 +436,21 @@ with SingleTickerProviderStateMixin {
   double getHeight(int i){
     double height = _cardHeight;
 
-    if (i > 1) height -= _cardHeightOffset*2;
-    else if (i > 0) height -= _cardHeightOffset;
+    if (i > 1) {
+      height -= _cardHeightOffset*2;
+    } else if (i > 0) {
+      height -= _cardHeightOffset;
+    }
 
     return height;
   }
 
   double alignmentCenterYOffset = -0.6;
+  double _itemDotWidth = 10;
 
   Widget itemDot(double itemDotWidth){
     return Container(
-        margin: EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         width: 5 + itemDotWidth,
         height: 5,
         decoration: BoxDecoration(
@@ -478,14 +469,14 @@ with SingleTickerProviderStateMixin {
           child:
           Row(
             children: [
-              Spacer(),
+              const Spacer(),
               for (int i = 0; i < valuesDataIndex.length; i++)
                 (widget.itemDot != null ?
-                  widget.itemDot!( (valuesDataIndex[0] == i ? widget.itemDotWidth! : 0) )
+                  widget.itemDot!( (valuesDataIndex[0] == i ? _itemDotWidth : 0) )
                     :
-                  itemDot( (valuesDataIndex[0] == i ? widget.itemDotWidth! : 0) )
+                  itemDot( (valuesDataIndex[0] == i ? _itemDotWidth : 0) )
                 ),
-              Spacer()
+              const Spacer()
             ],
           ),
         ),
@@ -497,7 +488,6 @@ with SingleTickerProviderStateMixin {
             Alignment(_dragAlignment.x, _dragAlignment.y + _dragAlignmentCenter + (animationPhase3 ? _bottomOffset : 0 ) )
                 : _dragAlignmentBack)
                 : Alignment(Alignment.center.x, alignmentCenterY + getAlignment( i ) + _dragAlignmentCenter + (animationPhase3 ? _bottomOffset : 0 )),
-
             child:
             Container(
               decoration: BoxDecoration(
@@ -511,9 +501,7 @@ with SingleTickerProviderStateMixin {
               widget.cards[ valuesDataIndex[i] ],
             ),
           )
-
       ],
     );
-
   }
 }

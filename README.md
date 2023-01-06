@@ -1,7 +1,7 @@
 
 # card_slider
 
-A draggable Flutter widget that makes implementing a CardSlider much easier! Card slider for carousel images and widgets. This widget works on both Android & iOS.
+A draggable Flutter image carousel slider on swipe or drag! Card slider for carousel images and widgets. This widget works on both Android & iOS.
 
 <p>
   <img width="205px" alt="Example" src="https://raw.githubusercontent.com/asylzatwww/card_slider/master/screenshots/example.gif"/>
@@ -15,7 +15,7 @@ A draggable Flutter widget that makes implementing a CardSlider much easier! Car
 Add the following to your `pubspec.yaml` file:
 ```yaml
 dependencies:
-  card_slider: ^1.0.0+1
+  card_slider: ^1.0.2
 ```
 
 <br>
@@ -167,7 +167,7 @@ There are several options that allow for more control:
 |--------------------------|------------------------------------------------------------------------------------------------------------------|
 | `cards`                  | The List of Widgets for slider                                                                                   |
 | `slideChanged`           | Optional Event fired when ever slide is changed, `(sliderIndex){  }` sliderIndex has a value of a current slide. |
-| `blurValue`              | Optional `blurValue` used for bluring the slider                                                                 |
+| `blurValue`              | Optional `blurValue` used for blurring the slider                                                                |
 | `blurOnClick`            | Optional `blurOnClick` is method which listens if users clicks over blurred slider to be able to remove blurry   |
 | `sliderBackGroundWidget` | Optional widget which placed on the background of slider, can be placed logo or any other image or widget .      |
 | `itemDotWidth`           | Optional is a width of dots under slider showing current location.                                               |

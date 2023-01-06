@@ -1,3 +1,9 @@
+## [1.0.2] - January 6, 2023
+
+Fixed bugs
+
+<br><br>
+
 ## [1.0.0+1] - January 5, 2023
 
 This is the initial release of the card_slider package. This includes features such as

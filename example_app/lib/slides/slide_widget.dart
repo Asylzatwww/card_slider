@@ -1,18 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:card_slider/card_slider.dart';
+import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MaterialApp(home: MainPage()));
-}
-
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
-
-  @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
+class SlideWidget extends StatelessWidget {
+  const SlideWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +17,9 @@ class _MainPageState extends State<MainPage> {
     ];
 
     List<Widget> valuesWidget = [];
-    for (int i = 0; i < valuesDataColors.length; i++) {
-      valuesWidget.add(
-          Container(
+      for (int i = 0; i < valuesDataColors.length; i++) {
+        valuesWidget.add(
+            Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
                 color: valuesDataColors[i],
@@ -38,11 +28,12 @@ class _MainPageState extends State<MainPage> {
                 alignment: Alignment.center,
                 child: Text( i.toString(), style: const TextStyle( fontSize: 28,  ), ),
               )
-          )
-      );
-    }
+            )
+        );
+      }
 
-    return Scaffold(
+    return
+        Scaffold(
           backgroundColor: const Color(0xFF1560BD),
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -51,12 +42,18 @@ class _MainPageState extends State<MainPage> {
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
             ),
             centerTitle: true,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white,),
+              tooltip: 'Back',
+              onPressed: () => Navigator.of(context).pop(),
+            ),
           ),
-          body: CardSlider(
+          body:
+          CardSlider(
             cards: valuesWidget,
             bottomOffset: .0003,
             cardHeight: 0.75,
           )
-      );
+    );
   }
 }
