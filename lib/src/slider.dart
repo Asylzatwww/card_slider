@@ -122,6 +122,9 @@ with SingleTickerProviderStateMixin {
     _controller.animateWith(simulation);
   }
 
+  // move the card to a specific position, when the user finishes dragging,
+  // 1. (first action) the card must be positioned to move the farthest location
+  // 2. (second action) the card must be positioned to move to the initial position
   Alignment getTheAlignment(bool directionNegative, [bool withOutDirection = false]){
 
     Alignment dragAlignmentSelect = directionNegative ? _dragAlignmentBack : _dragAlignment;
@@ -139,6 +142,9 @@ with SingleTickerProviderStateMixin {
     );
   }
 
+  // When the user drag finished, if the distance is more than minimum to start the animation,
+  // than the static animation process is initialized.
+  // This is the first phase of animation start
   void _cardToStartAnimation(Offset pixelsPerSecond, Size size) {
     _dragAlignmentAnim = _controller.drive(
       AlignmentTween(
@@ -168,6 +174,7 @@ with SingleTickerProviderStateMixin {
     });
   }
 
+  // Set all values to initial state
   void _setInitialValues(){
     _containerSizeWidth = 0;
     _containerSizeHeight = 0;
@@ -181,6 +188,7 @@ with SingleTickerProviderStateMixin {
     }
   }
 
+  // This is the second (last) phase of animation start
   void _cardToFinishAnimation(Offset pixelsPerSecond, Size size) {
     _setInitialValues();
 
@@ -329,6 +337,7 @@ with SingleTickerProviderStateMixin {
         );
   }
 
+  // the main body, gesture detector, slide widgets
   List<Widget> _sliderBody(){
     return [
         if (widget.sliderBackGroundWidget != null)
@@ -410,6 +419,7 @@ with SingleTickerProviderStateMixin {
       ];
   }
 
+  // each card which goes after must be located below
   double getAlignment(int i){
     double bottomOffset = 0;
     if (i > 1) {
@@ -421,6 +431,8 @@ with SingleTickerProviderStateMixin {
     return bottomOffset;
   }
 
+  // each card which goes after must smaller
+  // to make illusion if it was 3d or to show the user there is more cards to swipe
   double getWidth(int i){
     double width = _cardWidth;
 
@@ -433,6 +445,8 @@ with SingleTickerProviderStateMixin {
     return width;
   }
 
+  // each card which goes after must smaller
+  // to make illusion if it was 3d or to show the user there is more cards to swipe
   double getHeight(int i){
     double height = _cardHeight;
 
@@ -448,6 +462,7 @@ with SingleTickerProviderStateMixin {
   double alignmentCenterYOffset = -0.6;
   double _itemDotWidth = 10;
 
+  // Optional is a widget by which can be changed the dots of th slider position
   Widget itemDot(double itemDotWidth){
     return Container(
         margin: const EdgeInsets.all(5),
@@ -460,6 +475,7 @@ with SingleTickerProviderStateMixin {
     );
   }
 
+  // navigation dots, slider not moving slides - background
   Widget animatedBackCards(){
     return Stack(
       children: [

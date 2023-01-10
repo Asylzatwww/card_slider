@@ -15,7 +15,7 @@ A draggable Flutter image carousel slider on swipe or drag! Card slider for caro
 Add the following to your `pubspec.yaml` file:
 ```yaml
 dependencies:
-  card_slider: ^1.0.2
+  card_slider: ^1.0.3
 ```
 
 <br>

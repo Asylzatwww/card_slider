@@ -1,6 +1,6 @@
 name: card_slider
-description: A draggable Flutter image carousel slider on swipe or drag!
-version: 1.0.2
+description: A draggable Flutter image carousel slider, swipe or drag to change the slide!
+version: 1.0.3
 homepage: https://github.com/Asylzatwww/card_slider
 
 environment:
