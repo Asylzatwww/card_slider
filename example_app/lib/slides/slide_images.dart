@@ -6,7 +6,6 @@ class SlideImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     List<Widget> valuesWidget = [];
 
     List<String> valuesUrl = [
@@ -17,44 +16,47 @@ class SlideImages extends StatelessWidget {
 
     for (int i = 0; i < valuesUrl.length; i++) {
       valuesWidget.add(
-        Image.network( valuesUrl[i] ),
+        Image.network(valuesUrl[i]),
       );
     }
 
-    return
-        Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: const Text("Gallery",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF33a000)),
-            ),
-            centerTitle: true,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Color(0xFF33a000),),
-              tooltip: 'Back',
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          "Gallery",
+          style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF33a000)),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Color(0xFF33a000),
           ),
-          body:
-          CardSlider(
-            cards: valuesWidget,
-            bottomOffset: .0006,
-            itemDotWidth: 14,
-            itemDot:
-                (itemDotWidth){
-              return Container(
-                  margin: EdgeInsets.all(5),
-                  width: 8 + itemDotWidth,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xFF33a000),
-                  )
-              );
-            },
-          ),
+          tooltip: 'Back',
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: CardSlider(
+        cards: valuesWidget,
+        bottomOffset: .0006,
+        itemDotWidth: 14,
+        itemDot: (itemDotWidth) {
+          return Container(
+              margin: EdgeInsets.all(5),
+              width: 8 + itemDotWidth,
+              height: 8,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0xFF33a000),
+              ));
+        },
+      ),
     );
   }
 }

@@ -9,11 +9,12 @@ void main() {
   runApp(const MaterialApp(home: MainPage()));
 }
 
-class MyHttpOverrides extends HttpOverrides{
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext? context){
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -25,7 +26,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,18 +38,18 @@ class _MainPageState extends State<MainPage> {
           children: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                        const SlideImages()
-                ));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SlideImages()));
               },
               child: const Text("Slide images"),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                    const SlideWidget()
-                ));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SlideWidget()));
               },
               child: const Text("Slide widget"),
             ),
