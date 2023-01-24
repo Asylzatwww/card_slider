@@ -43,21 +43,24 @@ class _MainPageState extends State<MainPage> {
     }
 
     return Scaffold(
-        backgroundColor: const Color(0xFF1560BD),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text(
-            "Cards",
-            style: TextStyle(
-                fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
-          ),
-          centerTitle: true,
+      backgroundColor: const Color(0xFF1560BD),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          "Cards",
+          style: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
         ),
-        body: CardSlider(
-          cards: valuesWidget,
-          bottomOffset: .0003,
-          cardHeight: 0.75,
-        ));
+        centerTitle: true,
+      ),
+      body: CardSlider(
+        cards: valuesWidget,
+        bottomOffset: .0003,
+        cardHeight: 0.75,
+        containerHeight: MediaQuery.of(context).size.height - 100,
+        itemDotOffset: -0.05,
+      ),
+    );
   }
 }

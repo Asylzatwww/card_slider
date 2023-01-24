@@ -34,7 +34,7 @@ class SlideImages extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Color(0xFF33a000),
           ),
@@ -44,16 +44,17 @@ class SlideImages extends StatelessWidget {
       ),
       body: CardSlider(
         cards: valuesWidget,
-        bottomOffset: .0006,
+        bottomOffset: .0008,
         itemDotWidth: 14,
+        itemDotOffset: 0.15,
         itemDot: (itemDotWidth) {
           return Container(
-              margin: EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
               width: 8 + itemDotWidth,
               height: 8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(0xFF33a000),
+                color: const Color(0xFF33a000),
               ));
         },
       ),

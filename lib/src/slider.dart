@@ -23,6 +23,10 @@ class CardSlider extends StatefulWidget {
       this.cardHeight = .85,
       this.cardWidthOffset = .1,
       this.cardHeightOffset = .01,
+      this.containerWidth = double.infinity,
+      this.containerHeight = 500,
+      this.containerColor = Colors.transparent,
+      this.itemDotOffset = 0,
       this.itemDot})
       : super(key: key);
 
@@ -49,6 +53,14 @@ class CardSlider extends StatefulWidget {
   final double? cardHeightOffset;
   // Optional is a widget by which can be changed the dots of th slider position
   final WidgetFunction<double>? itemDot;
+  // Optional is a width of main Container
+  final double? containerWidth;
+  // Optional is a height of main Container
+  final double? containerHeight;
+  // Optional is a color of main Container
+  final Color? containerColor;
+  // Optional is a distance to position itemDot under slides
+  final double? itemDotOffset;
 }
 
 class _CardSliderState extends State<CardSlider>
@@ -323,9 +335,13 @@ class _CardSliderState extends State<CardSlider>
       runOnlyOnce = true;
     }
 
-    return Stack(
-      children: _sliderBody(),
-    );
+    return Container(
+        color: widget.containerColor,
+        height: widget.containerHeight,
+        width: widget.containerWidth,
+        child: Stack(
+          children: _sliderBody(),
+        ));
   }
 
   // the main body, gesture detector, slide widgets
@@ -468,8 +484,12 @@ class _CardSliderState extends State<CardSlider>
     return Stack(
       children: [
         Align(
-          alignment: Alignment(Alignment.center.x,
-              Alignment.center.y + alignmentCenterYOffset / 2 + 0.65),
+          alignment: Alignment(
+              Alignment.center.x,
+              Alignment.center.y +
+                  alignmentCenterYOffset / 2 +
+                  0.65 +
+                  widget.itemDotOffset!),
           child: Row(
             children: [
               const Spacer(),

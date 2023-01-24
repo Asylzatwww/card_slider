@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:example/slides/slide_images.dart';
+import 'package:example/slides/slide_in_column.dart';
 import 'package:example/slides/slide_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -52,6 +53,16 @@ class _MainPageState extends State<MainPage> {
                     builder: (context) => const SlideWidget()));
               },
               child: const Text("Slide widget"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SlideInColumn()));
+              },
+              child: const Text("Slide inside column widget"),
             ),
           ],
         ),

@@ -1,3 +1,9 @@
+## [1.0.5] - January 24, 2023
+
+Added new fields: containerWidth, containerHeight, containerColor, itemDotOffset. 
+Added documentation and example on how to use slider inside scrollable Column. Flutter formatting
+
+<br><br>
 ## [1.0.4] - January 10, 2023
 
 Fixed bugs, Flutter formatting

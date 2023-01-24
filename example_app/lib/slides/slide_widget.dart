@@ -55,8 +55,9 @@ class SlideWidget extends StatelessWidget {
         ),
         body: CardSlider(
           cards: valuesWidget,
-          bottomOffset: .0003,
+          bottomOffset: .0005,
           cardHeight: 0.75,
+          itemDotOffset: 0.25,
         ));
   }
 }
