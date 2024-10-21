@@ -534,8 +534,8 @@ class _CardSliderState extends State<CardSlider>
                   (animationPhase3 ? -1 * _cardHeightOffset : 0),
               child: widget.cards[valuesDataIndex[i]],
             ),
-            )
-          )
+        )
+    )
       ],
     );
   }
