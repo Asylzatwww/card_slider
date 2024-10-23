@@ -287,7 +287,7 @@ class _CardSliderState extends State<CardSlider>
       valuesDataIndex.add(i);
     }
 
-    _controller = AnimationController(vsync: this);
+    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 200));
 
     _controller.addListener(() {
       setState(() {
@@ -518,7 +518,7 @@ class _CardSliderState extends State<CardSlider>
                         getAlignment(i) +
                         _dragAlignmentCenter +
                         (animationPhase3 ? _bottomOffset : 0)),
-            Opacity(
+         child:   Opacity(
               opacity: i==0?1:i==1?0.5:0.1,
 
               child:   Container(
