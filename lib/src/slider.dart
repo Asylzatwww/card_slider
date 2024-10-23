@@ -287,7 +287,7 @@ class _CardSliderState extends State<CardSlider>
       valuesDataIndex.add(i);
     }
 
-    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 100));
+    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 8000));
 
     _controller.addListener(() {
       setState(() {
