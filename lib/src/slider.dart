@@ -34,7 +34,7 @@ class CardSlider extends StatefulWidget {
   State<CardSlider> createState() => _CardSliderState();
 
   // Optional Event fired when ever slide is changed, `(sliderIndex){  }` sliderIndex has a value of a current slide.
-  final ValueChanged<void>? slideChanged;
+  final ValueChanged<int>? slideChanged;
   // Optional `blurOnClick` is method which listens if users clicks over blurred slider to be able to remove blurry
   final ValueChanged<void>? blurOnClick;
   // Optional widget which placed on the background of slider, can be placed logo or any other image or widget .
@@ -287,7 +287,7 @@ class _CardSliderState extends State<CardSlider>
       valuesDataIndex.add(i);
     }
 
-    _controller = AnimationController(vsync: this);
+    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 100));
 
     _controller.addListener(() {
       setState(() {
@@ -518,7 +518,10 @@ class _CardSliderState extends State<CardSlider>
                         getAlignment(i) +
                         _dragAlignmentCenter +
                         (animationPhase3 ? _bottomOffset : 0)),
-            child: Container(
+         child:   Opacity(
+              opacity: i==0?1:i==1?0.5:0.1,
+
+              child:   Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 //color: valuesDataColors[valuesDataIndex[i]],
@@ -531,6 +534,7 @@ class _CardSliderState extends State<CardSlider>
                   (animationPhase3 ? -1 * _cardHeightOffset : 0),
               child: widget.cards[valuesDataIndex[i]],
             ),
+            )
           )
       ],
     );
