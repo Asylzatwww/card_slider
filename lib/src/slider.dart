@@ -34,7 +34,7 @@ class CardSlider extends StatefulWidget {
   State<CardSlider> createState() => _CardSliderState();
 
   // Optional Event fired when ever slide is changed, `(sliderIndex){  }` sliderIndex has a value of a current slide.
-  final ValueChanged<void>? slideChanged;
+  final ValueChanged<int>? slideChanged;
   // Optional `blurOnClick` is method which listens if users clicks over blurred slider to be able to remove blurry
   final ValueChanged<void>? blurOnClick;
   // Optional widget which placed on the background of slider, can be placed logo or any other image or widget .
