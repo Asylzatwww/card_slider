@@ -370,6 +370,7 @@ class _CardSliderState extends State<CardSlider>
                 }
               }
             }
+            directionNegative = false;
             if (directionX || directionY) {
               setState(() {
                 if (directionNegative) {
@@ -404,7 +405,7 @@ class _CardSliderState extends State<CardSlider>
               _animationPhase = 1;
               _cardToStartAnimation(details.velocity.pixelsPerSecond, _size);
             } else {
-              _cardToBackAnimation(details.velocity.pixelsPerSecond, _size);
+         //     _cardToBackAnimation(details.velocity.pixelsPerSecond, _size);
             }
           } else if (widget.blurValue != 0 && widget.blurOnClick != null) {
             widget
