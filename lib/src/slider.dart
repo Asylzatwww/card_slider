@@ -354,62 +354,35 @@ class _CardSliderState extends State<CardSlider>
           if (_animationPhase == 0) _controller.stop();
         },
         onPanUpdate: (details) {
-          if (_animationPhase == 0 && widget.blurValue == 0) {
-            if (!directionX && !directionY) {
-              if (details.delta.dx != 0.0 && details.delta.dy != 0.0) {
-                if (((details.delta.dx).abs() - (details.delta.dy).abs())
-                        .abs() >
-                    0.2) {
-                  if ((details.delta.dx).abs() > (details.delta.dy).abs()) {
-                    directionX = true;
-                    directionNegative = details.delta.dx > 0;
-                  } else {
-                    directionY = true;
-                    directionNegative = details.delta.dy > 0;
-                  }
+                  if (_animationPhase == 0 && widget.blurValue == 0) {
+            // Only allow right swipes (positive dx)
+            if (details.delta.dx > 0) {
+              if (!directionX && !directionY) {
+                if (details.delta.dx != 0.0 && details.delta.dy != 0.0) {
+                  directionX = details.delta.dx.abs() > details.delta.dy.abs();
+                  directionY = !directionX;
+                  directionNegative = details.delta.dx < 0;
                 }
               }
-            }
-            if (directionX || directionY) {
-              setState(() {
-                if (directionNegative) {
-                  _dragAlignmentBack += Alignment(
-                    directionX ? details.delta.dx / (_size.width / 2) : 0,
-                    directionY ? details.delta.dy / (_size.height / 2) : 0,
-                  );
-                } else {
+
+              if (directionX) {
+                setState(() {
                   _dragAlignment += Alignment(
-                    directionX ? details.delta.dx / (_size.width / 2) : 0,
-                    directionY ? details.delta.dy / (_size.height / 2) : 0,
-                  );
-                }
-              });
+                      details.delta.dx / (_size.width / 2),
+                      0); // Only update horizontal position
+                });
+              }
             }
           }
         },
         onPanEnd: (details) {
-          if (_animationPhase == 0 && widget.blurValue == 0) {
-            if (directionY
-                ? (directionNegative
-                    ? (_dragAlignmentBack.y + alignmentCenterYOffset * -1)
-                            .abs() >
-                        0.25
-                    : (_dragAlignment.y + alignmentCenterYOffset * -1).abs() >
-                        0.15)
-                : false || directionX
-                    ? (directionNegative
-                        ? _dragAlignmentBack.x.abs() > 0.2
-                        : _dragAlignment.x.abs() > 0.2)
-                    : false) {
-              _animationPhase = 1;
-              _cardToStartAnimation(details.velocity.pixelsPerSecond, _size);
-            } else {
-              _cardToBackAnimation(details.velocity.pixelsPerSecond, _size);
-            }
-          } else if (widget.blurValue != 0 && widget.blurOnClick != null) {
-            widget
-                .blurOnClick!(valuesDataIndex.isEmpty ? 1 : valuesDataIndex[0]);
-          }
+ if (_animationPhase == 0 && widget.blurValue == 0) {
+    if (details.velocity.pixelsPerSecond.dx < 0) {
+    // Block left swipe animations completely
+    return;
+    }
+    _cardToStartAnimation(details.velocity.pixelsPerSecond, _size);
+    }
         },
         child: BackdropFilter(
           filter: ImageFilter.blur(
