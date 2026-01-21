@@ -12,7 +12,7 @@ class _SlideInColumnState extends State<SlideInColumn> {
   bool _dragOverMap = false;
   final GlobalKey _pointerKey = GlobalKey();
 
-  _checkDrag(Offset position, bool up) {
+  void _checkDrag(Offset position, bool up) {
     if (!up) {
       // find your widget
       RenderBox box =

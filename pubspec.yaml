@@ -1,10 +1,10 @@
 name: card_slider
 description: A draggable Flutter image carousel slider, swipe or drag to change the slide!
-version: 1.0.5
+version: 1.0.6
 homepage: https://github.com/Asylzatwww/card_slider
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: '>=2.18.2 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -14,7 +14,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

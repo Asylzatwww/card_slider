@@ -5,13 +5,8 @@ import 'package:flutter/physics.dart';
 typedef WidgetFunction<T> = Widget Function(T value);
 
 class CardSlider extends StatefulWidget {
-  // The List of Widgets for slider
-  final List<Widget> cards;
-  // Optional `blurValue` used for blurring the slider
-  final double? blurValue;
-
   const CardSlider(
-      {Key? key,
+      {super.key,
       required this.cards,
       this.slideChanged,
       this.blurValue = 0,
@@ -27,40 +22,43 @@ class CardSlider extends StatefulWidget {
       this.containerHeight = 500,
       this.containerColor = Colors.transparent,
       this.itemDotOffset = 0,
-      this.itemDot})
-      : super(key: key);
+      this.itemDot});
 
   @override
   State<CardSlider> createState() => _CardSliderState();
 
+  // The List of Widgets for slider
+  final List<Widget> cards;
+  // Optional `blurValue` used for blurring the slider
+  final double blurValue;
   // Optional Event fired when ever slide is changed, `(sliderIndex){  }` sliderIndex has a value of a current slide.
-  final ValueChanged<void>? slideChanged;
+  final ValueChanged<int>? slideChanged;
   // Optional `blurOnClick` is method which listens if users clicks over blurred slider to be able to remove blurry
   final ValueChanged<void>? blurOnClick;
   // Optional widget which placed on the background of slider, can be placed logo or any other image or widget .
   final Widget? sliderBackGroundWidget;
   // Optional is a width of dots under slider showing current location.
-  final double? itemDotWidth;
+  final double itemDotWidth;
   // Optional is a double value, the height of a bottom of previous slide
-  final double? bottomOffset;
+  final double bottomOffset;
   // Optional is a width of a slides
-  final double? cardWidth;
+  final double cardWidth;
   // Optional is a height of a slides
-  final double? cardHeight;
+  final double cardHeight;
   // Optional is a width which is used for how far slide must go on in horizontal distance when swiping or dragging
-  final double? cardWidthOffset;
+  final double cardWidthOffset;
   // Optional is a height which is used for how far slide must go on in vertical distance when swiping or dragging
-  final double? cardHeightOffset;
+  final double cardHeightOffset;
   // Optional is a widget by which can be changed the dots of th slider position
   final WidgetFunction<double>? itemDot;
   // Optional is a width of main Container
   final double? containerWidth;
   // Optional is a height of main Container
-  final double? containerHeight;
+  final double containerHeight;
   // Optional is a color of main Container
-  final Color? containerColor;
+  final Color containerColor;
   // Optional is a distance to position itemDot under slides
-  final double? itemDotOffset;
+  final double itemDotOffset;
 }
 
 class _CardSliderState extends State<CardSlider>
@@ -101,6 +99,12 @@ class _CardSliderState extends State<CardSlider>
   static const double _slideTopOffset = -1.6;
   static const double _slideBottomOffset = 1.9;
 
+  final spring = SpringDescription.withDampingRatio(
+    mass: 1.0,
+    stiffness: 500.0,
+    ratio: 0.9, // 1.0 = critically damped, no bounce
+  );
+
   /// Calculates and runs a [SpringSimulation].
   void _cardToBackAnimation(Offset pixelsPerSecond, Size size) {
     directionY = false;
@@ -121,12 +125,6 @@ class _CardSliderState extends State<CardSlider>
     final unitsPerSecondY = pixelsPerSecond.dy / size.height;
     final unitsPerSecond = Offset(unitsPerSecondX, unitsPerSecondY);
     final unitVelocity = unitsPerSecond.distance;
-
-    const spring = SpringDescription(
-      mass: 60,
-      stiffness: 1,
-      damping: 1,
-    );
 
     final simulation = SpringSimulation(spring, 0, 1, -unitVelocity);
 
@@ -181,12 +179,6 @@ class _CardSliderState extends State<CardSlider>
     final unitsPerSecond = Offset(unitsPerSecondX, unitsPerSecondY);
     final unitVelocity = unitsPerSecond.distance;
 
-    const spring = SpringDescription(
-      mass: 60,
-      stiffness: 1,
-      damping: 1,
-    );
-
     final simulation = SpringSimulation(spring, 0, 1, -unitVelocity);
 
     _controller
@@ -204,7 +196,7 @@ class _CardSliderState extends State<CardSlider>
     directionX = false;
 
     if (widget.slideChanged != null) {
-      widget.slideChanged!(valuesDataIndex.isEmpty ? 1 : valuesDataIndex[0]);
+      widget.slideChanged!(valuesDataIndex.isEmpty ? 1 : valuesDataIndex[0] + 1);
     }
   }
 
@@ -259,12 +251,6 @@ class _CardSliderState extends State<CardSlider>
     final unitsPerSecond = Offset(unitsPerSecondX, unitsPerSecondY);
     final unitVelocity = unitsPerSecond.distance;
 
-    const spring = SpringDescription(
-      mass: 60,
-      stiffness: 1,
-      damping: 1,
-    );
-
     final simulation = SpringSimulation(spring, 0, 1, -unitVelocity);
 
     _controller.animateWith(simulation).then((value) => {
@@ -316,7 +302,7 @@ class _CardSliderState extends State<CardSlider>
     super.dispose();
   }
 
-  late var _size;
+  late Size _size;
 
   bool runOnlyOnce = false;
 
@@ -324,7 +310,7 @@ class _CardSliderState extends State<CardSlider>
   Widget build(BuildContext context) {
     if (!runOnlyOnce) {
       _size = MediaQuery.of(context).size;
-      _itemDotWidth = widget.itemDotWidth ?? 10;
+      _itemDotWidth = widget.itemDotWidth;
       _cardWidth = _size.width * widget.cardWidth;
       _cardHeight = _size.width * widget.cardHeight;
       _cardWidthOffset = _size.width * widget.cardWidthOffset;
@@ -413,7 +399,7 @@ class _CardSliderState extends State<CardSlider>
         },
         child: BackdropFilter(
           filter: ImageFilter.blur(
-              sigmaX: widget.blurValue!, sigmaY: widget.blurValue!),
+              sigmaX: widget.blurValue, sigmaY: widget.blurValue),
           child: Container(
             width: _size.width,
             height: _size.height,
@@ -489,7 +475,7 @@ class _CardSliderState extends State<CardSlider>
               Alignment.center.y +
                   alignmentCenterYOffset / 2 +
                   0.65 +
-                  widget.itemDotOffset!),
+                  widget.itemDotOffset),
           child: Row(
             children: [
               const Spacer(),

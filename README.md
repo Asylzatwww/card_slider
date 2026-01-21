@@ -306,3 +306,39 @@ There are several options that allow for more control:
 
 <br>
 <br>
+
+## 🔢 Get Current Slide Index
+
+You can listen to slide changes and get the current slide index using the slideChanged callback.
+
+This is useful when you need to:
+
+Track user interactions
+
+Sync the slider with external state
+
+Show slide numbers (e.g. 2 / 5)
+
+Trigger analytics or business logic
+
+### Example: Listening to Slide Changes
+
+```dart
+CardSlider(
+  cards: valuesWidget,
+  slideChanged: (index) {
+    print("Current index of slide is");
+    print(index.toString());
+  },
+  bottomOffset: .0003,
+  cardHeight: 0.75,
+  containerHeight: MediaQuery.of(context).size.height - 100,
+  itemDotOffset: -0.05,
+),
+```
+
+### Callback Details
+Parameter	Type	Description
+index	int	Zero-based index of the currently visible slide
+
+ℹ️ The callback fires every time the active slide changes, whether by swipe or drag.

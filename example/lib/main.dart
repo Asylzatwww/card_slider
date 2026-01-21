@@ -56,6 +56,10 @@ class _MainPageState extends State<MainPage> {
       ),
       body: CardSlider(
         cards: valuesWidget,
+        slideChanged: (index){
+          debugPrint("Current index of slide is");
+          debugPrint(index.toString());
+        },
         bottomOffset: .0003,
         cardHeight: 0.75,
         containerHeight: MediaQuery.of(context).size.height - 100,

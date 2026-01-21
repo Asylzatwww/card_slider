@@ -1,0 +1,29 @@
+# Dart/Flutter tool
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Example app build outputs
+example/.dart_tool/
+example/build/
+
+# Android
+example/android/.gradle/
+example/android/local.properties
+example/android/**/build/
+
+# iOS
+example/ios/Pods/
+example/ios/.symlinks/
+example/ios/Flutter/ephemeral/
+example/ios/Runner.xcworkspace/
+example/ios/DerivedData/
+*.xcuserstate

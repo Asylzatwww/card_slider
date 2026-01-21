@@ -1,3 +1,14 @@
+## [1.0.6]
+
+### Added
+- Added `slideChanged` callback to listen for current slide index.
+
+### Improved
+- Updated README with full usage examples.
+
+### Fixed
+- Minor internal animation stability fixes.
+
 ## [1.0.5] - January 24, 2023
 
 Added new fields: containerWidth, containerHeight, containerColor, itemDotOffset. 
